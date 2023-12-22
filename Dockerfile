@@ -19,7 +19,7 @@ ENV JAVA_MINIMAL=/opt/jre
 ENV PATH="$PATH:$JAVA_MINIMAL/bin"
 COPY --from=packager "$JAVA_MINIMAL" "$JAVA_MINIMAL"
 # Create the app user & Configure working directory
-ARG USER_NAME=sbtuser
+ARG USER_NAME
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 RUN apk update && apk --no-cache add bash \
