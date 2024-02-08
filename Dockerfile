@@ -1,6 +1,6 @@
-FROM alpine:latest as packager
+FROM alpine:3.19.1 as packager
 
-RUN apk --no-cache add openjdk11-jdk openjdk11-jmods
+RUN apk --no-cache add openjdk11-jdk openjdk11-jmods binutils
 
 ENV JAVA_MINIMAL=/opt/jre
 
@@ -14,16 +14,13 @@ RUN /usr/lib/jvm/java-11-openjdk/bin/jlink \
     --output "$JAVA_MINIMAL"
 
 # Second stage, add only our minimal "JRE" distr and our app
-FROM alpine:3.19.0
+FROM alpine:3.19.1
 ENV JAVA_MINIMAL=/opt/jre
 ENV PATH="$PATH:$JAVA_MINIMAL/bin"
 COPY --from=packager "$JAVA_MINIMAL" "$JAVA_MINIMAL"
-# Create the app user & Configure working directory
-ARG USER_NAME
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
-RUN apk update && apk --no-cache add bash \
-    && addgroup --gid $USER_GID $USER_NAME \
-    && adduser -D -S -G $USER_NAME -u $USER_UID $USER_NAME --shell /bin/bash \
-    && mkdir /home/$USER_NAME/app && chown -R $USER_UID:$USER_GID /home/$USER_NAME/app && chmod -R 755 /home/$USER_NAME/app
+# Create the app user
+ARG USER_NAME=app_user
+ARG USER_GROUP=$USER_NAME
+RUN apk update && apk upgrade && apk add --no-cache bash \
+    && addgroup -S $USER_GROUP && adduser -S -G $USER_GROUP $USER_NAME --shell /bin/bash
 USER $USER_NAME
