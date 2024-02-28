@@ -16,8 +16,7 @@ RUN adduser -D $USER_NAME
 USER $USER_NAME
 
 # Print installed Java versions
-RUN java -version && \
-    javac -version
+RUN java -version
 
 # Set the default Java version
 ENV JAVA_HOME $JAVA_HOME_21
