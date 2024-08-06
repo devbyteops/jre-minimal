@@ -2,14 +2,7 @@
 FROM alpine:latest
 
 # Install necessary packages
-RUN apk add --no-cache \
-    bash \
-    curl \
-    openjdk11-jdk \
-    git \
-    openssl \
-    py3-pip \
-    && pip3 install --upgrade pip
+RUN apk add --no-cache bash curl openjdk11-jdk git openssl python3 py3-pip aws-cli
 
 # Set SBT version
 ENV SBT_VERSION=1.8.2
@@ -19,9 +12,6 @@ RUN curl -L -o sbt.zip https://github.com/sbt/sbt/releases/download/v${SBT_VERSI
     && unzip sbt.zip -d /usr/local \
     && rm sbt.zip \
     && ln -s /usr/local/sbt/bin/sbt /usr/local/bin/sbt
-
-# Install AWS CLI
-RUN pip3 install awscli
 
 # Verify installations
 RUN sbt sbtVersion && aws --version
