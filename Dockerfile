@@ -2,7 +2,7 @@
 FROM alpine:latest
 
 # Install necessary packages
-RUN apk add --no-cache bash curl openjdk11-jdk git openssl python3 py3-pip aws-cli
+RUN apk add --no-cache bash curl openjdk21-jdk git openssl python3 py3-pip aws-cli npm
 
 # Set SBT version
 ENV SBT_VERSION=1.8.2
@@ -14,7 +14,7 @@ RUN curl -L -o sbt.zip https://github.com/sbt/sbt/releases/download/v${SBT_VERSI
     && ln -s /usr/local/sbt/bin/sbt /usr/local/bin/sbt
 
 # Verify installations
-RUN sbt sbtVersion "-Dsbt.rootdir=true" && aws --version
+RUN sbt sbtVersion "-Dsbt.rootdir=true" && aws --version && npm install -g @cyclonedx/cdxgen && cdxgen --version
 
 # Run SBT (default command, can be overridden)
 CMD ["aws" "--version"]
