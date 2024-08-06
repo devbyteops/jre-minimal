@@ -45,8 +45,8 @@ jobs:
           context: .
           platforms: linux/amd64, linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.metadata.outputs.tags }}
-          # tags: devbyteops/jre11-minimal:0.1.1
+          # tags: ${{ steps.metadata.outputs.tags }}
+          tags: devbyteops/jre-minimal:11.0.0.1
           labels: ${{ steps.metadata.outputs.labels }}
           build-args: |
             USER_NAME=appuser
