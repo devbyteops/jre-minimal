@@ -14,7 +14,7 @@ RUN curl -L -o sbt.zip https://github.com/sbt/sbt/releases/download/v${SBT_VERSI
     && ln -s /usr/local/sbt/bin/sbt /usr/local/bin/sbt
 
 # Verify installations
-RUN mkdir -p /tmp/sbt-project && cd /tmp/sbt-project && sbt sbtVersion && rm -rf /tmp/sbt-project
+RUN sbt sbtVersion "-Dsbt.rootdir=true" && aws --version
 
 # Run SBT (default command, can be overridden)
 CMD ["aws" "--version"]
