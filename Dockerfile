@@ -1,11 +1,11 @@
 FROM alpine:latest as packager
 
-RUN apk --no-cache add openjdk11-jdk openjdk11-jmods
+RUN apk --no-cache add openjdk17-jdk openjdk17-jmods
 
 ENV JAVA_MINIMAL=/opt/jre
 
 # build minimal JRE
-RUN /usr/lib/jvm/java-11-openjdk/bin/jlink \
+RUN /usr/lib/jvm/java-17-openjdk/bin/jlink \
     --verbose \
     --add-modules \
         java.base,java.sql,java.naming,java.desktop,java.management,java.security.jgss,java.instrument,jdk.crypto.ec,jdk.zipfs,jdk.unsupported \
